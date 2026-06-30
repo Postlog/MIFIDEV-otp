@@ -1,0 +1,38 @@
+# =====================================================================
+#  Local infrastructure for MIFIDEV-otp.
+#
+#    docker compose up -d
+#
+#  Brings up:
+#    * PostgreSQL 17  - the application database          (localhost:5432)
+#    * MailHog        - SMTP emulator + web UI            (SMTP localhost:1025, UI http://localhost:8025)
+#
+#  SMPP (SMS) testing uses a separate emulator (SMPPsim) — see README.
+# =====================================================================
+services:
+  postgres:
+    image: postgres:17
+    container_name: otp-postgres
+    environment:
+      POSTGRES_DB: otp
+      POSTGRES_USER: otp
+      POSTGRES_PASSWORD: otp
+    ports:
+      - "5432:5432"
+    volumes:
+      - otp-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U otp -d otp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: otp-mailhog
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+volumes:
+  otp-pgdata:

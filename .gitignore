@@ -1,0 +1,25 @@
+# Build output
+target/
+*.class
+dependency-reduced-pom.xml
+
+# Logs
+logs/
+*.log
+
+# Generated OTP file (file delivery channel, written to project root)
+otp-codes.txt
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+
+# Local secret overrides
+*.local.properties
